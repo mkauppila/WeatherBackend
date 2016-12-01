@@ -7,7 +7,7 @@
             [weather.weather :as weather]))
 
 (defroutes app-routes
-  (GET "/" [] "Hello World")
+  (GET "/api/current" [latitude longitude] (weather/current-weather latitude longitude))
   (route/not-found "Not Found"))
 
 ; (wrap-defaults app-routes site-defaults))
