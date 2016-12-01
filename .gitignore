@@ -1,1 +1,4 @@
 environment.sh
+*.swp
+target/*
+todo.md
