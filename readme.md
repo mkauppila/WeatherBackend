@@ -4,17 +4,18 @@ Proxy backend for requesting weather information from [DarkSky](https://darksky.
 
 ## Prerequisites
 
-You will need [Leiningen][] 2.0.0 or above installed.
-
-[leiningen]: https://github.com/technomancy/leiningen
+You will need [Leiningen](https://github.com/technomancy/leiningen) 2.0.0 or above installed.
 
 ## Running
 
 Before starting the web server, you need to configure the environment variables. Copy `environment.sample.sh` to `environment.sh` and fill in your Dark Sky API token.
 
-To start a web server for the application, run:
+TODO: Explain all the options that need/can be defined in `environment.sh`
 
-    lein ring server
+To start the web server and source all the needed environment variables while
+doing that, run:
+
+    run.sh
 
 ## License
 
