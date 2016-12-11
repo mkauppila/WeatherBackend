@@ -7,10 +7,11 @@
             [weather.weather :as weather]))
 
 (defroutes app-routes
-  (GET "/api/current" [latitude longitude] (weather/current-weather latitude longitude))
-  (route/not-found "Not Found"))
+  (GET "/api/current" [latitude longitude unit-system language]
+    (weather/current-weather latitude longitude unit-system language))
+  (route/not-found
+    "Not Found"))
 
-; (wrap-defaults app-routes site-defaults))
 (def app
 (-> (handler/api app-routes)
     (middleware/wrap-json-body)
