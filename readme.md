@@ -17,6 +17,15 @@ doing that, run:
 
     run.sh
 
+# Testing
+
+TODO: write instructions for mocking the environment variables and running
+the tests using `test.sh` script.
+
+## Provided API
+
+TODO: Document the API endpoints
+
 ## License
 
 Licensed under [MIT license](https://opensource.org/licenses/MIT). Copyright © 2016 Markus Kauppila.
