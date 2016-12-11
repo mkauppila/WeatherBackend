@@ -7,24 +7,38 @@
 (defn base-url-with-token []
   (str (env "DARKSKY_URL") "/" (env "DARKSKY_TOKEN")))
 
+(defn- current-unix-timestamp []
+  (int (/ (System/currentTimeMillis) 1000)))
+
+(defn add-hours-to-timestamp [hours timestamp]
+  (+ (* hours 3600) timestamp))
+
 (defn coordinate [latitude longitude]
   (str latitude "," longitude))
 
 (defn exclude-sections [blocks]
   (str "exclude=" (clojure.string/join "," blocks)))
 
-(defn request-current-weather [latitude longitude]
-  (http/get (str
+(defn form-request-url [latitude longitude time unit-system language]
+  (str
     (base-url-with-token)
     "/"
     (coordinate latitude longitude)
+    ","
+    time
     "?"
     (exclude-sections ["minutely" "hourly" "daily" "alerts" "flags"])
     "&"
-    "units=si"
+    (str "units=" unit-system)
     "&"
-    "language=en")))
+    (str "language=" language)))
 
-(defn current-weather [latitude longitude]
-  (let [req @(request-current-weather latitude longitude)]
+(defn request-current-weather [latitude longitude unit-system language]
+  (let [time (add-hours-to-timestamp 2 (current-unix-timestamp))
+        request-url (form-request-url latitude longitude unit-system language time)]
+    (println (str "hello: " request-url))
+    (http/get request-url)))
+
+(defn current-weather [latitude longitude unit-system language]
+  (let [req @(request-current-weather latitude longitude unit-system language)]
     {:body (:body req)}))
