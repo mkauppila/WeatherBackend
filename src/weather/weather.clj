@@ -1,5 +1,7 @@
 (ns weather.weather
-  (:require [org.httpkit.client :as http]))
+  (:require [org.httpkit.client :as http]
+            [cheshire.core :as cheshire]))
+
 
 (defn env [name]
   (or (System/getenv name) "no-default"))
@@ -33,12 +35,37 @@
     "&"
     (str "language=" language)))
 
-(defn request-current-weather [latitude longitude unit-system language]
-  (let [time (add-hours-to-timestamp 2 (current-unix-timestamp))
-        request-url (form-request-url latitude longitude unit-system language time)]
-    (println (str "hello: " request-url))
+(defn request-weather [latitude longitude time unit-system language]
+  (let [now (add-hours-to-timestamp 0 (current-unix-timestamp))
+        request-url (form-request-url latitude longitude time unit-system language)]
     (http/get request-url)))
 
+(defn string-to-json [string]
+  (cheshire/parse-string string))
+
+(defn meh [item]
+  (println item)
+  (string-to-json (:body item)))
+
+; if nil, then return empty structure?
+(defn form-head-item-response [item]
+  (meh item))
+
+(defn form-item-response [item]
+  (meh item))
+
 (defn current-weather [latitude longitude unit-system language]
-  (let [req @(request-current-weather latitude longitude unit-system language)]
-    {:body (:body req)}))
+  (let [current-time (current-unix-timestamp)
+        later-today (add-hours-to-timestamp (current-unix-timestamp) 3)
+        tomorrow (add-hours-to-timestamp (current-unix-timestamp) 24)]
+    (let [weathers (map (fn [time] @(request-weather latitude longitude time unit-system language))
+                        [current-time later-today tomorrow])]
+      ; current-weather @(request-current-weather latitude longitude current-time unit-system language)
+      {:body {
+        :current (form-head-item-response (first weathers))
+        :later-today (form-item-response (second weathers))
+        :tomorrow (form-item-response (nth weathers 2))
+      }
+        ; the generate the rest
+      }
+      )))
