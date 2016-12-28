@@ -1,7 +1,9 @@
 (ns weather.weather-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
-            [weather.weather :refer :all]))
+            [org.httpkit.client :as http]
+            [weather.weather :refer :all]
+            [weather.handler :refer :all]))
 
 (deftest test-weather
   (testing "base url formatting"
@@ -17,3 +19,12 @@
   (testing "formatation of the entire DarkSky API call"
     (is (= (form-request-url "11" "22" "3300" "si" "fi")
            "https://api.darksky.net/forecast/test-token/11,22,3300?exclude=minutely,hourly,daily,alerts,flags&units=si&language=fi"))))
+
+(deftest test-http-requests
+  (testing "response body will be returned on successful request"
+    (with-redefs-fn {#'http/get (fn [url] (future {:body "hello world" :status 200}))}
+      #(is (= (execute-request "blaa") "hello world"))))
+
+  (testing "will return nil on failure. Status code is not 200"
+    (with-redefs-fn {#'http/get (fn [url] (future {:body "hello world" :status 300}))}
+      #(is (= (execute-request "blaa") nil)))))

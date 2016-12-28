@@ -35,19 +35,21 @@
     "&"
     (str "language=" language)))
 
+(defn execute-request [url]
+  (let [response @(http/get url)]
+    (if (= (:status response) 200)
+      (:body response)
+      nil)))
+
 (defn request-weather [latitude longitude time unit-system language]
-  (let [now (add-hours-to-timestamp 0 (current-unix-timestamp))
-        request-url (form-request-url latitude longitude time unit-system language)]
-    (http/get request-url)))
+  (execute-request (form-request-url latitude longitude time unit-system language)))
 
 (defn string-to-json [string]
   (cheshire/parse-string string))
 
 (defn meh [item]
-  (println item)
-  (string-to-json (:body item)))
+  (string-to-json item))
 
-; if nil, then return empty structure?
 (defn form-head-item-response [item]
   (meh item))
 
@@ -58,14 +60,10 @@
   (let [current-time (current-unix-timestamp)
         later-today (add-hours-to-timestamp (current-unix-timestamp) 3)
         tomorrow (add-hours-to-timestamp (current-unix-timestamp) 24)]
-    (let [weathers (map (fn [time] @(request-weather latitude longitude time unit-system language))
+    (let [weathers (map (fn [time] (request-weather latitude longitude time unit-system language))
                         [current-time later-today tomorrow])]
-      ; current-weather @(request-current-weather latitude longitude current-time unit-system language)
-      {:body {
-        :current (form-head-item-response (first weathers))
-        :later-today (form-item-response (second weathers))
-        :tomorrow (form-item-response (nth weathers 2))
-      }
-        ; the generate the rest
-      }
-      )))
+      {:body
+        {:current (form-head-item-response (first weathers))
+         :later-today (form-item-response (second weathers))
+         :tomorrow (form-item-response (nth weathers 2))
+      }})))
