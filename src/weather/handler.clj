@@ -13,10 +13,10 @@
     "Not Found"))
 
 (def app
-(-> (handler/api app-routes)
-    (middleware/wrap-json-body)
-    (middleware/wrap-json-params)
-    (middleware/wrap-json-response)))
+  (-> (handler/api app-routes)
+      (middleware/wrap-json-body)
+      (middleware/wrap-json-params)
+      (middleware/wrap-json-response)))
 
 (defn -main [& args]
   (let [port (Integer. (or (System/getenv "PORT") 3000))]
