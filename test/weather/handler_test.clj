@@ -22,4 +22,4 @@
       (with-redefs-fn {#'http/get (fn [url] (future {:body darksky-response :status 200}))}
         #(let [response (app (mock/request :get "/api/current?latitude=60.192059&longitude=24.945831&unit-system=auto&language=en"))]
           (is (= (:status response) 200))
-          (is (= (cheshire/parse-string (:body response) (cheshire/parse-string get-current-response))))))))
+          (is (= (cheshire/parse-string (:body response)) (cheshire/parse-string get-current-response)))))))
