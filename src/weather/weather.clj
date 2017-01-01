@@ -29,7 +29,7 @@
     ","
     time
     "?"
-    (exclude-sections ["minutely" "hourly" "daily" "alerts" "flags"])
+    (exclude-sections ["minutely" "hourly" "alerts" "flags"])
     "&"
     (str "units=" unit-system)
     "&"
@@ -47,23 +47,36 @@
 (defn string-to-json [string]
   (cheshire/parse-string string))
 
-(defn meh [item]
-  (string-to-json item))
-
 (defn form-head-item-response [item]
-  (meh item))
+  (let [daily-data (first (-> item :daily :data))]
+    {:latitude (:latitude item)
+     :longitude (:longitude item)
+     :timezone (:timezone item)
+     :weather
+      {:icon (-> item :currently :icon)
+       :temperature (-> item :currently :temperature)
+       :apparentTemperature (-> item :currently :apparentTemperature)
+       :humidity (-> item :currently :humidity)
+       :windSpeed (-> item :currently :windSpeed)
+       :windBearing (-> item :currently :windBearing)
+       :cloudCover (-> item :currently :cloudCover)}
+     :sun
+      {:sunrise (:sunriseTime daily-data)
+       :sunset (:sunsetTime daily-data)}}))
 
 (defn form-item-response [item]
-  (meh item))
+  (string-to-json item))
 
 (defn current-weather [latitude longitude unit-system language]
   (let [current-time (current-unix-timestamp)
         later-today (add-hours-to-timestamp (current-unix-timestamp) 3)
         tomorrow (add-hours-to-timestamp (current-unix-timestamp) 24)]
     (let [weathers (map (fn [time] (request-weather latitude longitude time unit-system language))
-                        [current-time later-today tomorrow])]
+                        [current-time later-today tomorrow])
+          jsons (map (fn [dict] (cheshire/parse-string dict true)) weathers)]
+      (println "weathers " jsons)
       {:body
-        {:current (form-head-item-response (first weathers))
-         :later-today (form-item-response (second weathers))
-         :tomorrow (form-item-response (nth weathers 2))
+        {:current (form-head-item-response (first jsons))
+         :later-today (form-item-response (second jsons))
+         :tomorrow (form-item-response (nth jsons 2))
       }})))
