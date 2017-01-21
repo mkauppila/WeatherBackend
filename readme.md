@@ -1,6 +1,6 @@
 # Weather
 
-Proxy backend for requesting weather information from [DarkSky](https://darksky.net).
+Super simple proxy backend for requesting weather information from [DarkSky](https://darksky.net).
 
 ## Prerequisites
 
@@ -10,22 +10,24 @@ You will need [Leiningen](https://github.com/technomancy/leiningen) 2.0.0 or abo
 
 Before starting the web server, you need to configure the environment variables. Copy `environment.sample.sh` to `environment.sh` and fill in your Dark Sky API token.
 
-TODO: Explain all the options that need/can be defined in `environment.sh`
-
-To start the web server and source all the needed environment variables while
-doing that, run:
+To start the web server:
 
     run.sh
 
+The `run.sh` script will source all the needed environtment variables and
+run the server using lein.
+
 # Testing
 
-TODO: write instructions for mocking the environment variables and running
-the tests using `test.sh` script.
+For testing, it's needed to mock the used environment variables. These mocked
+variables are defined in `environment-test.sh`. `test.sh` runs the unit test
+suite using the mocked environment values.
 
 ## Provided API
 
-TODO: Document the API endpoints
+`GET "/api/current" [latitude longitude unit-system language]`
+  - Get the current weather at the location using the given unit system and language.
 
 ## License
 
-Licensed under [MIT license](https://opensource.org/licenses/MIT). Copyright © 2016 Markus Kauppila.
+Copyright © 2016 Markus Kauppila. Licensed under [MIT license](https://opensource.org/licenses/MIT).
