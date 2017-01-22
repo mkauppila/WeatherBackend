@@ -18,7 +18,7 @@
 
   (testing "formatation of the entire DarkSky API call"
     (is (= (form-request-url "11" "22" "3300" "si" "fi")
-           "https://api.darksky.net/forecast/test-token/11,22,3300?exclude=minutely,hourly,daily,alerts,flags&units=si&language=fi"))))
+           "https://api.darksky.net/forecast/test-token/11,22,3300?exclude=minutely,hourly,alerts,flags&units=si&language=fi"))))
 
 (deftest test-http-requests
   (testing "response body will be returned on successful request"

@@ -29,7 +29,7 @@
     ","
     time
     "?"
-    (exclude-sections ["minutely" "hourly" "daily" "alerts" "flags"])
+    (exclude-sections ["minutely" "hourly" "alerts" "flags"])
     "&"
     (str "units=" unit-system)
     "&"
@@ -59,10 +59,10 @@
        :humidity (-> item :currently :humidity)
        :windSpeed (-> item :currently :windSpeed)
        :windBearing (-> item :currently :windBearing)
-       :cloudCover (-> item :currently :cloudCover)}}))
-    ;  :sun
-      ; {:sunrise (:sunriseTime daily-data)
-      ;  :sunset (:sunsetTime daily-data)}}))
+       :cloudCover (-> item :currently :cloudCover)}
+     :sun
+      {:sunrise (:sunriseTime daily-data)
+       :sunset (:sunsetTime daily-data)}}))
 
 (defn form-item-response [item]
   (string-to-json item))

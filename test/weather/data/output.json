@@ -1,16 +1,20 @@
 {
    "current":{
-     "latitude":60.192059,
-     "longitude":24.945831,
-     "timezone":"Europe/Helsinki",
-     "weather":{
-        "icon":"wind",
-        "temperature":-0.82,
-        "apparentTemperature":-7.48,
-        "humidity":0.75,
-        "windSpeed":8.21,
-        "windBearing":353,
-        "cloudCover":0.1
-     }
+      "latitude":60.192059,
+      "longitude":24.945831,
+      "timezone":"Europe/Helsinki",
+      "weather":{
+         "icon":"wind",
+         "temperature":-0.82,
+         "apparentTemperature":-7.48,
+         "humidity":0.75,
+         "windSpeed":8.21,
+         "windBearing":353,
+         "cloudCover":0.1
+      },
+      "sun":{
+         "sunrise":1485068290,
+         "sunset":1485094062
+      }
    }
 }

@@ -19,5 +19,38 @@
       "cloudCover":0.1,
       "pressure":1023.02,
       "ozone":342.18
+   },
+   "daily":{
+      "data":[
+         {
+            "time":1485036000,
+            "summary":"Mostly cloudy starting in the afternoon.",
+            "icon":"partly-cloudy-night",
+            "sunriseTime":1485068290,
+            "sunsetTime":1485094062,
+            "moonPhase":0.82,
+            "precipIntensity":0.0051,
+            "precipIntensityMax":0.0838,
+            "precipIntensityMaxTime":1485043200,
+            "precipProbability":0.12,
+            "precipType":"rain",
+            "temperatureMin":-2.17,
+            "temperatureMinTime":1485036000,
+            "temperatureMax":2.76,
+            "temperatureMaxTime":1485090000,
+            "apparentTemperatureMin":-7.78,
+            "apparentTemperatureMinTime":1485036000,
+            "apparentTemperatureMax":-1.5,
+            "apparentTemperatureMaxTime":1485090000,
+            "dewPoint":-0.51,
+            "humidity":0.92,
+            "windSpeed":5.72,
+            "windBearing":273,
+            "visibility":9.33,
+            "cloudCover":0.6,
+            "pressure":1017.94,
+            "ozone":321.34
+         }
+      ]
    }
 }
